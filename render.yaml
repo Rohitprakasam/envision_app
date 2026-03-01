@@ -1,0 +1,32 @@
+services:
+  # Backend FastAPI Service
+  - type: web
+    name: aura-h-backend
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    rootDir: backend/medical-backend/backend
+    envVars:
+      - key: GEMINI_API_KEY
+        sync: false # Set this manually in Render dashboard or provide a secret
+      - key: PYTHON_VERSION
+        value: 3.11.0
+
+  # Frontend React Static Site
+  - type: static
+    name: aura-h-frontend
+    env: static
+    rootDir: frontend/aura-care-connect
+    buildCommand: npm install && npm run build
+    staticPublishDir: dist
+    envVars:
+      - key: VITE_API_BASE_URL
+        fromService:
+          type: web
+          name: aura-h-backend
+          property: url
+        suffix: /api # Append /api to the backend service URL
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
