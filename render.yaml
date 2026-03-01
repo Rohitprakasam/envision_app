@@ -13,12 +13,12 @@ services:
         value: 3.11.0
 
   # Frontend React Static Site
-  - type: web
+  - type: static_site
     name: aura-h-frontend
     env: static
     rootDir: frontend/aura-care-connect
     buildCommand: npm install && npm run build
-    staticPublishDir: dist
+    publishDir: dist
     envVars:
       - key: VITE_API_BASE_URL
         fromService:
