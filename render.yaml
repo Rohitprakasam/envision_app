@@ -13,7 +13,7 @@ services:
         value: 3.11.0
 
   # Frontend React Static Site
-  - type: static
+  - type: web
     name: aura-h-frontend
     env: static
     rootDir: frontend/aura-care-connect
